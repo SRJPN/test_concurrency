@@ -4,6 +4,7 @@ from django.db import models
 from core.exceptions import (
     InvalidCurrentSpentSummary,
 )
+from django.db.models import F
 
 # Create your models here.
 
@@ -15,7 +16,8 @@ class CurrentSpentSummaryManager(models.Manager):
         reward_balance: Decimal = None,
         cleared_balance: Decimal = None,
     ):
-        is_updated = self.model.objects.filter(id=existing_spent_summary_id,).update(
+        to_update = self.model.objects.filter(id=existing_spent_summary_id)
+        is_updated = to_update.update(
             cleared_balance=F("cleared_balance") + cleared_balance,
             reward_balance=F("reward_balance") + reward_balance,
         )

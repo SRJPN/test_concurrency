@@ -1,19 +1,12 @@
 
 # basic URL Configurations
-from django.urls import include, path
-# import routers
-from rest_framework import routers
+from django.urls import path
  
 # import everything from views
 from .views import *
  
-# define the router
-router = routers.DefaultRouter()
- 
-# define the router path and viewset to be used
-router.register(r'current-spend-Summary', CurrentSpendSummaryViewSet)
- 
 # specify URL Path for rest_framework
 urlpatterns = [
-    path('', include(router.urls)),
+    path('current-spend-summary', CurrentSpendSummaryAPIView.as_view()),
+    path('current-spend-summary/<str:id>', CurrentSpendSummaryDetailAPIView.as_view()),
 ]
