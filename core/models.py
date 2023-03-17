@@ -19,12 +19,17 @@ class CurrentSpentSummaryManager(models.Manager):
         to_update = self.model.objects.filter(id=existing_spent_summary_id)
         is_updated = to_update.update(
             cleared_balance=F("cleared_balance") + cleared_balance,
+        )
+        if not is_updated:
+            raise InvalidCurrentSpentSummary
+        
+        is_updated = to_update.update(
             reward_balance=F("reward_balance") + reward_balance,
         )
 
         if not is_updated:
             raise InvalidCurrentSpentSummary
-        return self.model.objects.get(pk=existing_spent_summary_id)
+        return to_update.first()
 
 
 class CurrentSpentSummary(models.Model):
