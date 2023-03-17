@@ -1,0 +1,16 @@
+version: '3'
+services:
+  database:
+    image: postgres
+    ports:
+      - "5421:5432"
+    environment:
+      POSTGRES_DB: "test_concurrency"
+      POSTGRES_USER: "test_concurrency_user"
+      POSTGRES_PASSWORD: "test_concurrency_password"
+      PGDATA: "/var/lib/postgresql/data/pgdata2"
+    container_name: test_concurrency_db
+    hostname: postgres
+
+volumes:
+  citests:
