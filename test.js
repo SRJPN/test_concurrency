@@ -1,7 +1,8 @@
 var request = require('request');
+id = "d374ad28-7185-4eaa-bf25-7d1658825900"
 var options = {
   'method': 'PUT',
-  'url': 'http://127.0.0.1:8001/current-spend-summary/0994f047-cd7c-4b95-9ccd-70abc69db8d3',
+  'url': `http://127.0.0.1:8001/current-spend-summary/${id}`,
   'headers': {
     'Content-Type': 'application/json'
   },
@@ -13,7 +14,7 @@ var options = {
 
 var another_options = {
     'method': 'PUT',
-    'url': 'http://127.0.0.1:8000/current-spend-summary/0994f047-cd7c-4b95-9ccd-70abc69db8d3',
+    'url': `http://127.0.0.1:8000/current-spend-summary/${id}`,
     'headers': {
       'Content-Type': 'application/json'
     },

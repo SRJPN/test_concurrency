@@ -1,5 +1,25 @@
 version: '3'
 services:
+  web:
+    container_name: test-concurrency-service
+    image: test-concurrency-service
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        ENV: "local"
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8001:8000"
+    environment:
+      ENVIRONMENT: "local"
+      DATABASE_NAME: "test_concurrency"
+      DATABASE_USER: "test_concurrency_user"
+      DATABASE_PASSWORD: "test_concurrency_password"
+      DATABASE_HOST: "postgres"
+      DATABASE_PORT: 5432
+    links:
+      - database
   database:
     image: postgres
     ports:
@@ -9,8 +29,8 @@ services:
       POSTGRES_USER: "test_concurrency_user"
       POSTGRES_PASSWORD: "test_concurrency_password"
       PGDATA: "/var/lib/postgresql/data/pgdata2"
-    container_name: test_concurrency_db
+    container_name: test-concurrency-db
     hostname: postgres
-
 volumes:
-  citests:
+  database:
+    driver: local

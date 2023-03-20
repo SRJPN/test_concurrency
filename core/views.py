@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from core.models import CurrentSpentSummary
+from core.models import CurrentSpentSummary, CurrentSpentSummaryRegister
 from core.serializers import CurrentSpendSummarySerializer
 
 # Create your views here.
@@ -27,6 +27,11 @@ class CurrentSpendSummaryAPIView(APIView):
             cleared_balance=request.data.get('cleared_balance'),
             reward_balance=request.data.get('reward_balance')
         )
+        CurrentSpentSummaryRegister.objects.create(
+            current_spent_summary_id=created.id,
+            reward_balance=request.data.get('reward_balance'),
+            cleared_balance=request.data.get('cleared_balance'),
+        )
         return Response(CurrentSpendSummarySerializer(created).data, status=status.HTTP_201_CREATED)
 
 
@@ -41,6 +46,11 @@ class CurrentSpendSummaryDetailAPIView(APIView):
                 {"res": f"CurrentSpentSummary with {id} does not exists"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        CurrentSpentSummaryRegister.objects.create(
+            current_spent_summary_id=id,
+            reward_balance=request.data.get('reward_balance'),
+            cleared_balance=request.data.get('cleared_balance'),
+        )
         updated = CurrentSpentSummary.objects.update_current_spent_summary(id,
                                                                            request.data.get(
                                                                                'reward_balance'),
